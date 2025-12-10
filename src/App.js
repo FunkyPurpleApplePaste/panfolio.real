@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
+import BG from "./components/BG";
+import FloatingCubes from "./components/FloatingCubes";
+import Navbar from "./components/Navbar";
+import HeroCarousel from "./components/HeroCarousel";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import ContactFooter from "./components/ContactFooter";
+import ProjectPage from "./pages/ProjectPage"; // the new template page
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div id="cube-root">
+        <link
+          href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+          rel="stylesheet"
+        />
+        <BG />
+        <FloatingCubes />
+        <Navbar />
+
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HeroCarousel featuredIds={['fight-on-hight','hight-praeteritum','portfolio-website']} />
+                <About />
+                <Projects />
+              </>
+            }
+          />
+
+          {/* dynamic project pages */}
+          <Route path="/project/:id" element={<ProjectPage />} />
+        </Routes>
+        <ContactFooter />
+      </div>
+    </Router>
   );
 }
-
-export default App;

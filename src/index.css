@@ -1,13 +1,905 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ------------------ CSS ------------------ */
+
+/* Paste this CSS into your main stylesheet (or keep it in a CSS module). */
+
+/* Variables for consistent spacing */
+:root {
+  --bg: #191919;
+  --card: rgba(255, 255, 255, 0.03);
+  --muted: rgba(255, 255, 255, 0.68);
+  --accent: #ff66d4;
+  --accent-2: #ff66d4;
+  --glass: rgba(255, 255, 255, 0.03);
+  --maxw: 1200px;
+
+  /* NEW: section spacing variables */
+  --section-vertical-pad: 6rem;
+  --section-horizontal-pad: 2rem;
+  --section-gap: 2.5rem; /* uniform gap between stacked reveals */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background:#000;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* --- ANIMATIONS --- */
+.fade-up {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1),
+    transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+  transition-delay: var(--fade-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.fade-up.in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-duration: 0.45s; /* fast enter */
+}
+
+.fade-up.out {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition-duration: 0.7s; /* slower fade out */
+  pointer-events: none;
+}
+
+
+/* --- AMBIENT BG --- */
+/* Grid background that subtly reacts to the cursor */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: grid;
+  gap: 10px;
+  padding: 2rem;
+  align-content: center;
+  justify-items: center;
+  transform-style: preserve-3d;
+  will-change: transform;
+  /* subtle dark backdrop so tiles are visible but unobtrusive */
+  background: linear-gradient(180deg, rgba(6,6,8,0.6), rgba(6,6,8,0.85));
+  mix-blend-mode: normal;
+  transition: opacity 0.5s ease;
+}
+
+/* each cell is a square tile that will tilt */
+.bg-grid-cell {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  border-radius: 6px;
+  overflow: visible;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1), opacity 350ms ease;
+  opacity: 0.85;
+}
+
+/* visual content inside the cell; gives depth and subtle borders */
+.bg-grid-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.01);
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* tiny highlight line for more structure */
+.bg-grid-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(102,255,199,0.03), transparent 40%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* make tiles less dense on narrow screens */
+@media (max-width: 880px) {
+  .bg-grid { gap: 8px; padding: 12px; }
+  .bg-grid-inner::after { opacity: 0.35 }
+}
+
+.trailer-glow.one { left: 10%; top: 10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent), transparent 70%); animation: ambientFloat 10s infinite alternate; }
+.trailer-glow.two { right: 0%; bottom: 10%; width: 40vw; height: 40vw; background: radial-gradient(circle, var(--accent-2), transparent 70%); animation: ambientFloat 14s infinite alternate-reverse; }
+.trailer-glow.three { left: 40%; top: 60%; width: 30vw; height: 30vw; background: radial-gradient(circle, #fffd8d, transparent 70%); animation: ambientFloat 18s infinite alternate; }
+@keyframes ambientFloat { 0% { transform: translate(0,0); } 100% { transform: translate(40px, -40px); } }
+
+/* --- NAV --- */
+/* ---------------- Navbar redesign (matches footer) ---------------- */
+
+.pf-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  transition: background 260ms ease, box-shadow 260ms ease, transform 260ms ease;
+  padding: 0.7rem 1rem;
+  display: block;
+  pointer-events: auto;
+  /* default transparent so content shows through */
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.pf-nav--sticky {
+  position: sticky; /* optional; leave if you like sticky */
+  top: 0;
+}
+
+.pf-nav--scrolled {
+  background: rgba(18,18,22,0.64);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+}
+
+/* inner grid aligns with --maxw */
+.pf-nav-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr; /* brand | spacer+right */
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* left area: brand */
+.pf-nav-left { display:flex; align-items:center; gap:0.6rem; }
+
+.pf-brand {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: transform 180ms ease;
+}
+
+.pf-brand:hover { transform: translateY(-2px); }
+
+/* center: links (desktop) */
+.pf-nav-links {
+  display: flex;
+  gap: 1.0rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* individual link styling (matches footer hover underline) */
+.pf-link {
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+  transition: color 200ms ease, transform 160ms ease;
+}
+
+.pf-link:hover { color: #fff; transform: translateY(-2px); }
+
+.pf-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 220ms ease;
+  opacity: 0.95;
+}
+
+.pf-link:hover::after { transform: scaleX(1); }
+
+/* CTA style for the resume link in nav */
+.pf-link--cta {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #081017;
+  padding: 8px 12px;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(232,102,255,0.12);
+}
+.pf-link--cta:hover { transform: translateY(-3px); }
+
+/* right area */
+.pf-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: end; /* ensure whole block sits at the right edge */
+}
+/* small icon placeholder; kept minimal */
+.pf-icon { color: var(--muted); text-decoration:none; font-weight:700; }
+
+/* hamburger toggle (mobile) */
+.pf-nav-toggle {
+  display: none;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  height: 44px;
+  width: 44px;
+  border-radius: 10px;
+  padding: 6px;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* hamburger SVG lines animation */
+.pf-nav-toggle svg { display:block; }
+.pf-nav-toggle .line { stroke: rgba(255,255,255,0.9); stroke-width: 2.2; transition: transform 240ms ease, opacity 160ms ease; }
+
+/* toggle -> X */
+.pf-nav-toggle.open .line.top { transform-origin: 12px 6px; transform: translateY(6px) rotate(45deg); }
+.pf-nav-toggle.open .line.mid { opacity: 0; transform: scaleX(0.6); }
+.pf-nav-toggle.open .line.bot { transform-origin: 12px 18px; transform: translateY(-6px) rotate(-45deg); }
+
+/* mobile menu — slide down */
+.pf-mobile-menu {
+  display: none; /* only on small screens */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: rgba(18,18,22,0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 1rem;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+  transform-origin: top center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  transform: translateY(-6px) scaleY(0.995);
+}
+
+/* when open */
+.pf-mobile-menu.is-open {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scaleY(1);
+}
+
+/* mobile menu links */
+.pf-mobile-link {
+  width: 100%;
+  text-align: left;
+  display: block;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-weight: 800;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.pf-mobile-resume { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #081017; }
+
+/* responsiveness */
+@media (max-width: 880px) {
+  .pf-nav-inner { grid-template-columns: auto auto; }
+  .pf-nav-links { display: none; }      /* hide desktop links */
+  .pf-nav-toggle { display: inline-flex; } /* show hamburger */
+  .pf-desktop-actions { display: none; }
+  .pf-mobile-menu { display: none; } /* becomes visible only when has .is-open */
+}
+
+/* slightly increase desktop spacing on very wide screens */
+@media (min-width: 1400px) {
+  .pf-nav-inner { gap: 2rem; padding: 0 1rem; }
+}
+
+/* accessible focus ring */
+.pf-link:focus, .pf-brand:focus, .pf-nav-toggle:focus, .pf-mobile-link:focus {
+  outline: 3px solid rgba(255,255,255,0.06);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+
+/* --- SECTION LAYOUT & CONTAINERS --- */
+.pf-section { padding-bottom: 2rem; }
+.pf-container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  width: 100%;
+  
+  /* Frosted glass effect */
+  background: rgba(25, 25, 25, 0.3); /* semi-transparent dark */
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+}
+
+/* Make stacked reveals inside sections use a uniform gap */
+.pf-section .pf-container { display: flex; flex-direction: column; gap: var(--section-gap); }
+
+/* row layout used in About for two panels */
+.pf-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+
+/* --- HERO --- */
+.pf-hero { min-height: 95vh; display: flex; align-items: center; justify-content: center; padding: 6.5rem 1rem; position: relative; z-index: 10; flex-direction: column; }
+.pf-hero-inner { max-width: var(--maxw); width: 100%; display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; }
+.pf-hero-left { flex: 1 1 400px; min-width: 300px; }
+.pf-hero-kicker { font-size: 0.95rem; color: var(--accent); letter-spacing: 1.5px; margin-bottom: 1rem; font-weight: 700; text-transform: uppercase; }
+.pf-hero-title { font-size: clamp(2.8rem, 6vw, 4.5rem); margin: 0 0 1rem; line-height: 1.05; font-weight: 900; letter-spacing: -0.02em; }
+.pf-hero-sub { color: var(--muted); max-width: 50ch; line-height: 1.7; font-size: 1.15rem; margin-bottom: 2rem; }
+.pf-hero-ctas { display: flex; gap: 1rem; }
+.pf-btn { padding: 0.9rem 1.8rem; border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; }
+.pf-btn:hover { transform: scale(1.05); }
+.pf-btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #081017; box-shadow: 0 0 20px rgba(232, 102, 255, 0.3); }
+.pf-btn-ghost { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+.pf-btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+.hero-media-wrap { flex: 1 1 500px; display: flex; justify-content: center; perspective: 1000px; }
+.hero-card { width: 100%; max-width: 640px; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; background: #000; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); }
+.hero-card img { width: 100%; height: 100%; object-fit: cover; }
+.hero-dots { display: flex; gap: 12px; margin-top: 3rem; position: relative; z-index: 20; }
+.hero-dot { width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer; background: rgba(255,255,255,0.2); transition: all 0.3s; padding: 0; }
+.hero-dot.active { background: var(--accent); transform: scale(1.3); }
+
+/* --- ABOUT --- */
+.pf-about-card { padding: 2.5rem; border-radius: 16px; border-left: 4px solid var(--accent); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+.pf-about-title { font-size: 2.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 1rem; }
+.pf-quote { border-left: 3px solid var(--accent-2); padding-left: 1rem; margin: 1.5rem 0 0; font-style: italic; color: var(--muted); font-size: 1.1rem; }
+
+.pf-glass-panel { padding: 1.8rem; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.skill-pill { padding: 6px 14px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); font-weight: 600; font-size: 0.85rem; transition: 0.3s; cursor: default; }
+.skill-pill:hover { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #000; transform: translateY(-2px); }
+
+/* Integration tweaks for Ethos */
+.pf-ethos { border-left-color: var(--accent-2); }
+
+/* --- PROJECTS --- */
+/* Masonry container */
+.pf-projects-grid {
+  display: flex;
+  margin-left: -2rem; /* gutter compensation */
+  width: auto;
+}
+
+.pf-projects-column {
+  padding-left: 2rem; /* gutter */
+  background-clip: padding-box;
+}
+
+/* Each card still has spacing at bottom */
+.pf-project {
+  margin-bottom: 2rem;
+}
+
+
+.pf-project-inner { flex: 1; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; transition: transform 0.4s ease, box-shadow 0.4s ease; display: flex; flex-direction: column; }
+.pf-project .bg { width: 100%; flex: 1; background-size: cover; background-position: center; transition: transform 0.6s ease; }
+.pf-project .panel { padding: 1.5rem; background: linear-gradient(180deg, rgba(10,10,12,0.6), rgba(10,10,12,0.95)); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.05); }
+.tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+
+/* --- MODAL --- */
+/* --- MODAL FIXES AND REDESIGN --- */
+
+/* 1. Backdrop (Remains mostly the same, ensuring Z-index) */
+.pf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(8, 8, 10, 0.90);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease forwards;
+
+  
+}
+
+/* 2. OUTER CONTAINER (New Element for Cube Positioning and Max Size) */
+.pf-modal-container {
+  width: 100%;
+  max-width: 1200px; /* Requested: Bigger size */
+  max-height: 90vh;
+  position: relative; /* CRITICAL: Cubes are positioned absolutely relative to this */
+  /* Padding allows the cubes to float outside the visual card's edge */
+  padding: 3.5rem; 
+  box-sizing: content-box; 
+  animation: slideUp 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+/* 3. INNER VISUAL CARD (Reuses .pf-about-card styles) */
+.pf-modal-card {
+  width: 100%;
+  height: 100%;
+  /* CRITICAL: Overrides the background for better text contrast/depth */
+  background: linear-gradient(180deg, rgba(25,25,25,0.8), rgba(25,25,25,0.95)) !important;
+  
+  /* Resetting padding, as the content is now structured inside pf-modal-layout */
+  padding: 2.5rem; 
+  overflow-y: auto; /* Only the card content scrolls, not the cubes */
+}
+
+/* 4. Layout Grid */
+.pf-modal-layout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start; /* Aligns content to the top */
+  height: 100%;
+}
+
+/* 5. Left Column: Image */
+.pf-modal-media {
+  flex: 1.3;
+  perspective: 1000px;
+}
+
+.pf-modal-img-wrapper {
+  /* Reusing original size properties, but adapting to new grid */
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto; /* Let aspect ratio control height */
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 16px rgba(232,102,255,0.3);
+  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.pf-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* 6. Right Column: Content */
+.pf-modal-content {
+  flex: 1;
+  padding-right: 1rem;
+  z-index: 10; 
+}
+
+/* Requested: Larger and White Title */
+.pf-modal-title {
+  font-size: clamp(2.5rem, 5vw, 3.2rem) !important;
+  line-height: 1.1 !important;
+  font-weight: 900;
+  color: #fff !important; /* Force white as requested */
+  margin: 0.5rem 0 1rem 0 !important;
+  letter-spacing: -1px;
+}
+
+.pf-modal-period {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: block;
+}
+
+.pf-modal-body p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+
+/* 7. Button Overflow Fix */
+.pf-modal-actions-fix-wrap {
+  overflow: hidden; /* CRITICAL FIX: Clips the expanded button scale */
+  padding-bottom: 4px; /* Space for button shadow/scaling */
+}
+
+.pf-modal-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+
+/* Responsive: Stack vertically on small screens */
+@media (max-width: 900px) {
+  .pf-modal-layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .pf-modal-media {
+    width: 100%;
+    flex: none;
+  }
+  
+  .pf-modal-content {
+    width: 100%;
+    padding-right: 0;
+  }
+  
+  .pf-modal-container {
+    padding: 1.5rem; /* Reduce outer padding on mobile */
+  }
+  
+  .pf-modal-card {
+    padding: 1.5rem; /* Reduce inner padding on mobile */
+  }
+}  
+
+/* Button hover clipping fix */
+.pf-modal-actions-wrapper {
+  overflow: visible;
+  padding-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Maintain project-card parity inside modal */
+.pf-modal-media > div {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Portal layer for stable cubes */
+.pf-modal-cube-portal {
+  mix-blend-mode: lighten;
+  overflow: visible;
+}
+
+/* Prevent button hover clipping */
+.pf-modal-actions-wrapper {
+  overflow: visible;
+  padding-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* --- MODAL SIZE & SPACING ENHANCEMENTS --- */
+
+/* Outer container (defines overall modal footprint) */
+.pf-modal-container {
+  max-width: 1400px;   /* wider modal */
+  max-height: 95vh;    /* taller modal */
+  padding: 4rem;       /* more breathing space around card */
+}
+
+/* Inner card (where content + image sit) */
+.pf-modal-card {
+  padding: 3rem;       /* more interior spacing */
+  border-radius: 20px; /* rounder corners feel more open */
+}
+
+/* Layout columns (add more horizontal gap) */
+.pf-modal-layout {
+  gap: 4rem;           /* increased spacing between image + content */
+  align-items: center; /* center vertically for balance */
+}
+
+/* Image area (scale up proportionally) */
+.pf-modal-media > div {
+  height: 380px;       /* bigger tilt image */
+}
+
+/* Title and text breathing room */
+.pf-modal-title {
+  margin-bottom: 1.2rem !important;
+}
+
+.pf-modal-body p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+/* Buttons section spacing */
+.pf-modal-actions-wrapper {
+  margin-top: 2rem;
+}
+
+
+
+/* make modal glassy and match the About card */
+.pf-modal-card {
+  position: relative;
+  padding: 2.5rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-left: 4px solid var(--accent);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+  overflow: visible;
+}
+
+
+
+/* cube layer inside modal container (so cubes anchor to modal edges) */
+.pf-modal-cube-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 50; /* above modal background, below content with zIndex:10 on content wrapper */
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* small wrapper for cube placement (already inline-styled), keep this minimal if needed */
+.pf-modal-cube {
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* reuse your floatCube keyframes (you already have them) */
+/* .cube and .cube.filled / .cube.hollow already exist in your CSS - animation will be applied inline */
+
+
+
+/* ---------------- Redesigned Footer ---------------- */
+.pf-footer {
+  width: 100%;
+  background: rgba(18, 18, 22, 0.55);           /* darker glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.55);
+  padding: 2.25rem 1.5rem;
+  z-index: 50;
+  position: relative; /* default: not sticky */
+}
+
+/* optional sticky variant (pass sticky=true to component) */
+.pf-footer--sticky {
+  position: sticky;
+  bottom: 0;
+  margin-top: 2rem;
+}
+
+/* center the content to your --maxw like other sections */
+.pf-footer-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* left / center / right */
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+/* left block */
+.pf-footer-left { justify-self: start; }
+.pf-footer-brand {
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+.pf-footer-tag {
+  margin: 0 0 0.75rem 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.pf-contact { font-size: 0.95rem; color: rgba(255,255,255,0.72); line-height: 1.6; }
+.pf-contact-mail {
+  display: inline-block;
+  margin-top: 0.25rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+}
+.pf-contact-mail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 260ms ease;
+  opacity: 0.85;
+}
+.pf-contact-mail:hover::after { transform: scaleX(1); }
+
+/* center block: CTA */
+.pf-footer-center { justify-self: center; display:flex; flex-direction:column; align-items:center; gap:0.6rem; }
+.pf-cta {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #081017;
+  border: none;
+  padding: 0.65rem 1.15rem;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(232,102,255,0.14);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.pf-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(232,102,255,0.18); }
+
+/* subtle vertical divider for center block on wide screens */
+.pf-divider {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius: 1px;
+}
+
+/* right block */
+.pf-footer-right { justify-self: end; text-align: right; display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end; }
+.pf-footer-links { display:flex; gap:1rem; align-items:center; justify-content:flex-end; flex-wrap:wrap; }
+.pf-footer-links a {
+  color: rgba(255,255,255,0.78);
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+  padding: 0.1rem 0;
+  transition: color 180ms ease;
+}
+.pf-footer-links a::after {
+  content: "";
+  position: absolute;
+  left:0;
+  bottom: -4px;
+  height: 2px;
+  width:100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 260ms ease;
+  opacity: 0.9;
+}
+.pf-footer-links a:hover { color: #fff; }
+.pf-footer-links a:hover::after { transform: scaleX(1); transform-origin:left; }
+
+.pf-footer-copy { color: rgba(255,255,255,0.54); font-size: 0.88rem; }
+
+/* SMALL SCREENS: stack nicely */
+@media (max-width: 880px) {
+  .pf-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: left;
+    padding: 0;
+  }
+  .pf-footer-left, .pf-footer-center, .pf-footer-right {
+    justify-self: stretch;
+    align-items: flex-start;
+  }
+  .pf-footer-center { flex-direction:row; gap:1rem; }
+  .pf-footer-right { align-items:flex-start; text-align:left; }
+}
+
+
+
+/* --- KEYFRAMES --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(20px); transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* Slightly larger spacing between About and the following section (Project Head) */
+
+/* Ensure Project Head and Projects match About spacing */
+/* They already use .pf-section so no extra changes needed beyond the variable-driven padding */
+
+/* Responsive tweaks */
+@media (max-width: 880px) {
+  .pf-row { flex-direction: column; }
+  :root { --section-gap: 1.6rem; }
+}
+
+/* Add this to your CSS */
+.pf-section.project-head {
+  padding-top: 0rem; /* closer to previous section */
+  padding-bottom:0rem; /* same spacing as About → Skills */
+}
+
+/* Soft subtle ambient background */
+.soft-light-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+  radial-gradient(circle at 90% 90%, rgba(195, 138, 255, 0.075) 0%, transparent 80%),
+  radial-gradient(circle at 75% 75%, rgba(255, 139, 222, 0.1) 0%, transparent 70%),
+  radial-gradient(circle at 50% 50%, rgba(224, 100, 255, 0.15) 0%, transparent 70%),
+  radial-gradient(circle at 25% 25%, rgba(255, 139, 222, 0.1) 0%, transparent 70%),
+  radial-gradient(circle at 10% 10%, rgba(195, 138, 255, 0.075) 0%, transparent 80%);
+  background-blend-mode: screen;
+  animation: softGlowShift 60s ease-in-out infinite alternate;
+  filter: blur(20px); /* adds gentle diffusion */
+}
+
+@keyframes softGlowShift {
+  0% {
+    background-position: 25% 25%, 75% 75%, 50% 50%;
+  }
+  50% {
+    background-position: 30% 28%, 70% 78%, 55% 52%;
+  }
+  100% {
+    background-position: 25% 25%, 75% 75%, 50% 50%;
+  }
+}
+
+@keyframes floatCube {
+  0% {
+    transform: translate(0, 0) rotateZ(0deg);
+  }
+  25% {
+    transform: translate(6px, -8px) rotateZ(2deg);
+  }
+  50% {
+    transform: translate(10px, -12px) rotateZ(4deg);
+  }
+  75% {
+    transform: translate(4px, -6px) rotateZ(2deg);
+  }
+  100% {
+    transform: translate(0, 0) rotateZ(0deg);
+  }
+}
+
+
+.cube {
+  position: absolute;
+  border-radius: 4px;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+}
+
+.cube.filled {
+  background: rgba(200, 100, 255, 0.1);
+  border: 4px solid rgba(255, 150, 255, 0.3);
+  box-shadow: 0 0 12px rgba(255, 150, 255, 0.2);
+}
+
+.cube.hollow {
+  background: transparent;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+.floating-cubes {
+  mix-blend-mode: lighten;
+  filter: blur(0.2px);
+}
+
+
+
