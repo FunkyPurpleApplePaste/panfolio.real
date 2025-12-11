@@ -10,11 +10,14 @@ import Projects from "./components/Projects";
 import ContactFooter from "./components/ContactFooter";
 import ProjectPage from "./pages/ProjectPage"; // the new template page
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Scroll smoothly to top every time the route changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
 
