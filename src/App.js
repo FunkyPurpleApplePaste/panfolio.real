@@ -10,9 +10,21 @@ import Projects from "./components/Projects";
 import ContactFooter from "./components/ContactFooter";
 import ProjectPage from "./pages/ProjectPage"; // the new template page
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Scroll smoothly to top every time the route changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <Router>
+       <ScrollToTop /> {/* 👈 This line makes it work */}
       <div id="cube-root">
         <link
           href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
