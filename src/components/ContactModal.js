@@ -85,7 +85,7 @@ export default function ContactModal({ onClose }) {
             >
               <div className="pf-modal-header">
                 <span className="pf-modal-period">CONTACT</span>
-                <h2 className="pf-modal-title">Get in touch</h2>
+                <h2 className="pf-modal-title">GET IN TOUCH</h2>
                 <div className="tag" style={{ fontSize: "0.85rem" }}>Quick message • Collabs • Resume</div>
               </div>
 
