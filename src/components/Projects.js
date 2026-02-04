@@ -8,7 +8,6 @@ import Masonry from 'react-masonry-css';
 function ProjectCard({ p, i, setModal }) {
   const { ref: tiltRef, tilt, handleMouseMove, handleMouseLeave } = require('../hooks/useTilt').useTilt(17, 1.05);
   const isHovered = tilt.scale > 1;
-
   return (
     <Reveal key={p.id} className="pf-project" style={{ transitionDelay: `${i * 0.1}s` }}>
       <div
@@ -55,6 +54,7 @@ function ProjectCard({ p, i, setModal }) {
 
 export default function Projects() {
   const [modal, setModal] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     const onKey = (e) => {
@@ -64,10 +64,13 @@ export default function Projects() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Masonry breakpoint columns
+  const categories = ['All', ...Array.from(new Set(projectsData.map(p => p.category)))];
+
+  const filteredProjects = selectedCategory === 'All' ? projectsData : projectsData.filter(p => p.category === selectedCategory);
+
   const breakpointColumnsObj = {
-    default: 2, // 2 columns on desktop
-    768: 1,     // 1 column on mobile
+    default: 2,
+    768: 1,
   };
 
   return (
@@ -87,14 +90,28 @@ export default function Projects() {
           <blockquote className="pf-quote">“This is barely 1% of my power.”</blockquote>
           <ForegroundCube parentSelector={"pf-about-card"} position="top-right" size={60} offset={{ x: -5, y: -10 }} />
           <ForegroundCube parentSelector={"pf-about-card"} position="bottom-right" size={90} offset={{ x: -5, y: -10 }} />
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', marginTop: 16 }}>
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`skill-pill ${selectedCategory === cat ? 'active' : ''}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
         </Reveal>
+     
+
 
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="pf-projects-grid"
-          columnClassName="pf-projects-column"  
+          columnClassName="pf-projects-column"
         >
-          {projectsData.map((p, i) => (
+          {filteredProjects.map((p, i) => (
             <ProjectCard key={p.id} p={p} i={i} setModal={setModal} />
           ))}
         </Masonry>

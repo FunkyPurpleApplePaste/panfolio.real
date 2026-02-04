@@ -1,31 +1,16 @@
-// src/data.js
-
 export const skills = [
   'Rapid Prototyping', 'Luau / Roblox',
   'JavaScript / TS', 'Python', 'C# / C++ Game Logic',
-  'UI/UX Design', 'REACT / JSX', 'App Development', 'Web Design'
+  'UI/UX Design', 'REACT / JSX', 'CSS', 'App Development', 'Web Design'
 ];
 
-export const workflow = [
-  'Prototype → Test → Iterate fast',
-  'Player-focused feedback loops',
-  'Custom pipelines & editor tools',
-  'Polish with responsive UX',
-  'Modular, scalable systems',
-];
-
-/**
- * projectsData
- * - This is the canonical source for full project pages.
- * - Fields available: id, title, period, tag, image, desc, role, highlight,
- *   notes, quote, subtitleOverview, gallery (array), extraSections (array).
- */
 export const projectsData = [
 
 {
   id: 'portfolio-website',
   title: 'PORTFOLIO WEBSITE',
   period: '2025',
+  category: 'Apps & Design',
   tag: 'React • Web Design • Front-End Architecture',
   image: '/assets/portfolio/Picture1.png',
   shortDesc:
@@ -79,6 +64,7 @@ export const projectsData = [
     id: 'fight-on-hight',
     title: 'FIGHT ON HIGHT',
     period: '2022 - Ongoing',
+    category: 'Games & Lore',
     tag: 'Semi-Randomizer • Combat',
     image: '/assets/Picture1.png',
     shortDesc: 'A randomizer fighting game featuring unique gameplay mechanics such as classes, powers, and abilities. Includes multiple maps, gamemodes, and interactive map gimmicks. This project is live and gets regular updates.',
@@ -116,11 +102,11 @@ export const projectsData = [
     ]
 },
 
-
   {
     id: 'hight-praeteritum',
     title: 'HIGHT PRAETERITUM',
     period: '2024 - Ongoing',
+    category: 'Games & Lore',
     tag: 'Lore • Worldbuilding',
     image: '/assets/Picture2.png',
     shortDesc: 'A lore compendium of fragments in the FIGHT ON HIGHT universe, written from various characters’ perspectives.',
@@ -156,11 +142,11 @@ export const projectsData = [
     ]
 },
 
-
   {
     id: 'ark-corporation',
     title: 'ARK CORPORATION',
     period: '2025 - Ongoing',
+    category: 'Games & Lore',
     tag: 'Turn-Based • Strategy',
     image: '/assets/Picture3.png',
     shortDesc: 'A turn-based strategy game featuring lore characters as playable units, with drag-and-drop targeting and modular abilities. Currently in the early development phase.',
@@ -205,6 +191,7 @@ export const projectsData = [
     id: 'oceanborne',
     title: 'OCEANBORNE',
     period: '2022 - 2023',
+    category: 'Games & Lore',
     tag: 'Open World • Exploration • Combat',
     image: '/assets/oceanpic.png',
     shortDesc: 'An open-world ocean exploration and combat game with permadeath, multiple playstyles, and rich lore.',
@@ -248,6 +235,7 @@ export const projectsData = [
     id: 'dustborne',
     title: 'DUSTBORNE',
     period: '2025 - Cancelled',
+    category: 'Games & Lore',
     tag: 'Open World • Exploration • Combat',
     image: '/assets/dustpic.png',
     shortDesc: 'A prototype open-world exploration/combat game set in the same universe as OCEANBORNE, but in a dried, post-ocean landscape.',
@@ -286,6 +274,7 @@ export const projectsData = [
     id: 'lifeweaver',
     title: 'LIFEWEAVER',
     period: '2025',
+    category: 'Apps & Design',
     tag: 'UI/UX • Web Design • Prototype',
     image: '/assets/lifeweaver/Picture1.png',
     shortDesc: 'A high-fidelity Figma prototype for a sustainable clothing brand website, created around the concept of LifeWeaver.',
@@ -326,14 +315,53 @@ export const projectsData = [
     ]
 },
 
+{
+  id: 'community-connect',
+  title: 'COMMUNITY CONNECT',
+  period: '2026',
+  category: 'Apps & Design',
+  tag: 'Web App • Local Networking • React',
+  image: '/assets/ccgallery/Picture1.png',
+  shortDesc: 'A web app connecting neighbors for small acts of help, with visual task cards, live updates, and intuitive filtering.',
+  desc: 'Community Connect is a web application designed to make neighborly help easy, visible, and trustworthy. Users can post requests for assistance or offer help, all through a simple, card-based interface that clearly shows task details, urgency, and contact information. The platform encourages real community interactions by making small tasks accessible and visible to everyone nearby.',
+  role: 'Front-End Developer & UX Designer',
+  highlight: 'Real-time card-based system, color-coded priorities, live database syncing, and a friendly, approachable interface that encourages local engagement.',
+  notes: 'Built with React for a smooth, interactive front-end experience, integrated with a live database for instant updates across devices. Special focus on accessibility, intuitive UI, and micro-interactions such as ribbons for task status and priority. The platform was designed iteratively, incorporating feedback from live demos and user testing.',
+  quote: '“Technology should bring people together — one small act at a time.”',
+  subtitleOverview: 'Connecting neighbors through small acts of help',
+  gallery: [
+    '/assets/ccgallery/Picture1.png',
+    '/assets/ccgallery/Picture2.png',
+    '/assets/ccgallery/Picture3.png',
+    '/assets/ccgallery/Picture4.png'
+  ],
+  extraSections: [
+    {
+      title: 'Problem & Purpose',
+      subtitle: 'Why this app exists',
+      content: 'People want to help in their communities but often don’t know who needs assistance. Social media is noisy, and direct asking can feel awkward. Community Connect provides a simple, trustworthy space where neighbors can request or offer help, making acts of kindness visible and actionable.'
+    },
+    {
+      title: 'Design & Features',
+      subtitle: 'Friendly, visual interface',
+      content: 'Every task appears as a card showing what’s needed, urgency, and contact info. Cards are color-coded by status and priority for quick comprehension. Users can create, edit, or delete tasks, and all changes sync instantly across devices. Admins have advanced filtering by category, status, or urgency.'
+    },
+    {
+      title: 'Technical Implementation',
+      subtitle: 'React front-end & live database',
+      content: 'Built in React with modular components for cards, ribbons, and filtering. Integrated with a live database to reflect updates in real time. Special attention to responsive layouts, accessibility, and micro-interactions to ensure clarity and engagement.'
+    },
+    {
+      title: 'Learning & Growth',
+      subtitle: 'Challenges & insights',
+      content: 'Integrating the front-end with a hosted database posed challenges, especially ensuring instant syncing and state management. Attention to small UI details like spacing, shadows, and toasts improved overall user experience. The project reinforced full-stack thinking, teamwork, and iterative design principles.'
+    }
+  ]
+},
+
 
 ];
 
-
-/**
- * heroSlides
- * - Used by the hero carousel. Derived from projectsData so images/titles stay in sync.
- */
 export const heroSlides = projectsData.map(p => ({
   id: p.id,
   title: p.title,

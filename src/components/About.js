@@ -22,8 +22,45 @@ export default function About() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>{skills.map((s) => (<span key={s} className="skill-pill">{s}</span>))}</div>
             <ForegroundCube parentSelector={"pf-row"} position='top-right' size={80} offset={{x : 0, y : 10 }}/>
             <ForegroundCube parentSelector={"pf-row"} position='bottom-left' size={80} offset={{x : -50, y : 20 }}/>
+
+            <div style={{ marginTop: 24 }}>
+              <h4 style={{ margin: '0 0 12px', fontWeight: 700}}>Certificates</h4>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 16,
+                justifyContent: 'flex-start',
+                alignItems: 'center'
+              }}>
+                <img
+                  src="/assets/css.png"
+                  alt="Certificate 1"
+                  style={{
+                    width: '320px',
+                    height: 'auto',
+                    borderRadius: 8,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                    objectFit: 'cover'
+                  }}
+                />
+                <img
+                  src="/assets/react.png"
+                  alt="Certificate 2"
+                  style={{
+                    width: '320px',
+                    height: 'auto',
+                    borderRadius: 8,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                    objectFit: 'cover'
+                  }}
+                />
+              </div>
+            </div>
+
           </Reveal>
         </div>
+
+        
 
         <Reveal className="pf-about-card">
           <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: 8 }}>Personal Philosophy</div>
