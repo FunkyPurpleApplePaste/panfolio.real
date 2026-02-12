@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import ForegroundCube from "./ForegroundCubes"; 
+import ForegroundCube from "./ForegroundCubes";
+import { useTilt } from "../hooks/useTilt";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectModal({ project, onClose }) {
