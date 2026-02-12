@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 export default function ContactFooter({ sticky = false }) {
   return (
     <footer id="contact"  className={`pf-footer ${sticky ? 'pf-footer--sticky' : ''}`} role="contentinfo">
@@ -14,8 +16,13 @@ export default function ContactFooter({ sticky = false }) {
         <div className="pf-footer-center" aria-hidden><div className="pf-divider" aria-hidden /></div>
         <div className="pf-footer-right" aria-label="links">
           <nav className="pf-footer-links" aria-label="social links">
-            <a href="https://github.com/FunkyPurpleApplePaste" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://github.com/FunkyPurpleApplePaste" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <FaGithub size={20} />
+            </a>
+            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <FaLinkedin size={20} />
+            </a>
+
             <a href="/resume.pdf" target="_blank" rel="noreferrer">Resume</a>
           </nav>
           <div className="pf-footer-copy">© {new Date().getFullYear()} Pan C</div>

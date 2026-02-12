@@ -167,10 +167,22 @@ export default function ContactModal({ onClose }) {
                 <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
                   <a style={{ color: "var(--pf-purple)"}} href="mailto:cosapatarapimpannawit@gmail.com">cosapatarapimpannawit@gmail.com</a>
                   <span style={{ opacity: 0.5 }}>·</span>
-                  <a style={{ color: "var(--pf-purple)"}} href="https://github.com/FunkyPurpleApplePaste" target="_blank" rel="noreferrer">GitHub</a>
+                  <a style={{ color: "var(--pf-purple)", display: "inline-flex", alignItems: "center", gap: 6 }}
+                    href="https://github.com/FunkyPurpleApplePaste"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub">
+                    <FaGithub size={18} />
+                  </a>
                   <span style={{ opacity: 0.5 }}>·</span>
-                  <a style={{ color: "var(--pf-purple)"}} href="https://www.linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-                </div>
+                  <a style={{ color: "var(--pf-purple)", display: "inline-flex", alignItems: "center", gap: 6 }}
+                    href="https://www.linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn">
+                    <FaLinkedin size={18} />
+                  </a>
+                  </div>
               </div>
             </div>
 

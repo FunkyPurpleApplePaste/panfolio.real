@@ -59,7 +59,7 @@ export default function About() {
                     src={cert.src}
                     alt={cert.alt}
                     style={{
-                      width: '32.3%',
+                      width: '23.7%',
                       borderRadius: 8,
                       boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
                       objectFit: 'cover',
