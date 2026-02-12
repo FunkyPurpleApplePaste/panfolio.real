@@ -64,7 +64,7 @@ export default function HeroCarousel({ featuredIds = [] }) {
               className="pf-btn pf-btn-ghost"
               onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              ABOUT
+              ABOUT ME
             </button>
           </div>
         </div>
