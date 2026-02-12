@@ -4,22 +4,12 @@ import Reveal from "../components/Reveal";
 import ForegroundCube from "../components/ForegroundCubes";
 import { projectsData } from "../data";
 import { useTilt } from "../hooks/useTilt";
-import React, { useState, useEffect } from "react";
 
 
 export default function ProjectPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const project = projectsData.find((p) => p.id === id);
-
-const [zoomed, setZoomed] = useState(null);
-
-  useEffect(() => {
-    if (!zoomed) return;
-    const handleEsc = (e) => e.key === "Escape" && setZoomed(null);
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [zoomed]);
 
   const heroTiltHook = useTilt(10, 1.03);
   const { ref: heroRef, tilt: heroTilt, handleMouseMove: heroMove, handleMouseLeave: heroLeave } = heroTiltHook;
@@ -185,43 +175,6 @@ const [zoomed, setZoomed] = useState(null);
         
       </div>
     </section>
-
-{zoomed && (
-  <div
-    className="pf-overlay-backdrop"
-    onClick={() => setZoomed(null)}
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.8)",
-      backdropFilter: "blur(6px)",
-      zIndex: 9999,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      cursor: "zoom-out",
-      animation: "fadeIn 0.2s ease",
-    }}
-  >
-    <img
-      src={zoomed}
-      alt="Zoomed"
-      onClick={(e) => e.stopPropagation()}
-      style={{
-        maxWidth: "90vw",
-        maxHeight: "90vh",
-        borderRadius: 16,
-        boxShadow:
-          "0 0 32px rgba(0,0,0,0.6), 0 0 16px rgba(232,102,255,0.3)",
-        cursor: "default",
-        transition: "transform 0.25s ease",
-        transform: "scale(1)",
-      }}
-    />
-  </div>
-)}
-
-
     </div>
   );
 }
