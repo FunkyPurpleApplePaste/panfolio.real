@@ -13,7 +13,6 @@ function startRAF() {
       const vh = window.innerHeight || document.documentElement.clientHeight;
       const visible = rect.top < vh * (1 - threshold) && rect.bottom > 0;
 
-      // only update if state changes (avoid React re-render spam)
       if (visible !== prev.current) {
         prev.current = visible;
         setVisible(visible);
@@ -34,11 +33,9 @@ export function useScrollReveal(threshold = 0) {
     const el = ref.current;
     if (!el) return;
 
-    // attach element to global set
     observed.add({ el, threshold, setVisible: setIsVisible, prev });
     startRAF();
 
-    // IntersectionObserver used only for early prefetch / warm entry
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !prev.current) {

@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import ForegroundCube from "./ForegroundCubes"; // import the new component
-import { useTilt } from "../hooks/useTilt";
+import ForegroundCube from "./ForegroundCubes"; 
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectModal({ project, onClose }) {
@@ -10,26 +9,20 @@ export default function ProjectModal({ project, onClose }) {
   const modalRef = useRef(null);
   const [modalRect, setModalRect] = useState(null);
 
-  // prevent background scroll
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = prev || ""; };
   }, []);
 
-  // continuously update modal rect if you still need it elsewhere
- // in ProjectModal.jsx — replace your useLayoutEffect with this:
-
 useLayoutEffect(() => {
   if (!modalRef.current) return;
 
   const updateRect = () => {
     if (!modalRef.current) return;
-    // only call set only if changed to avoid unnecessary renders
     const r = modalRef.current.getBoundingClientRect();
     setModalRect(prev => {
       if (!prev) return r;
-      // coarse compare to avoid tiny changes causing re-renders
       if (
         Math.abs(prev.left - r.left) < 0.5 &&
         Math.abs(prev.top - r.top) < 0.5 &&
@@ -40,19 +33,15 @@ useLayoutEffect(() => {
     });
   };
 
-  // initial
   updateRect();
 
-  // observe element size changes (fast, native)
   const ro = new ResizeObserver(updateRect);
   ro.observe(modalRef.current);
 
-  // also update on scroll/resize/orientationchange (throttled-friendly)
   window.addEventListener("resize", updateRect, { passive: true });
   window.addEventListener("orientationchange", updateRect, { passive: true });
   window.addEventListener("scroll", updateRect, { passive: true });
 
-  // cleanup
   return () => {
     ro.disconnect();
     window.removeEventListener("resize", updateRect);
@@ -60,9 +49,6 @@ useLayoutEffect(() => {
     window.removeEventListener("scroll", updateRect);
   };
 }, []);
-
-
-  // small rescan when image changes to catch layout shifts
   useEffect(() => {
     const t = setTimeout(() => {
       if (modalRef.current) setModalRect(modalRef.current.getBoundingClientRect());
@@ -74,11 +60,9 @@ useLayoutEffect(() => {
     <>
       <div className="pf-modal-backdrop" onClick={onClose}>
         <div className="pf-modal-container" onClick={(e)=>e.stopPropagation()} ref={modalRef}>
-          {/* cube layer inside modal container so cubes are anchored to the modal */}
           <div className="pf-modal-cube-layer" aria-hidden>
             <ForegroundCube position="top-right" size={120} offset={{ x: 30, y: 35 }} />
             <ForegroundCube position="bottom-left" size={80} offset={{ x: 30, y: 35 }} />
-            {/* add more cubes as desired */}
           </div>
 
           <div className="pf-about-card" style={{ position: "relative", zIndex: 10 }}>
