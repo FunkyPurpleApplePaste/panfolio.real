@@ -6,11 +6,14 @@ import ForegroundCube from "../components/ForegroundCubes";
 import { projectsData } from "../data";
 import { useTilt } from "../hooks/useTilt";
 
+
 export default function ProjectPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const project = projectsData.find((p) => p.id === id);
 
+
+  
   // Hero image tilt
   const heroTiltHook = useTilt(10, 1.03);
   const { ref: heroRef, tilt: heroTilt, handleMouseMove: heroMove, handleMouseLeave: heroLeave } = heroTiltHook;
@@ -58,9 +61,26 @@ export default function ProjectPage() {
   }
 
   return (
-    <section className="pf-section" style={{ paddingTop: "3rem", paddingBottom: "3rem" }}>
+    <div style={{ paddingTop: "3rem", paddingBottom: "3rem" }}>
+    <section className="pf-section">
       <div className="pf-container">
-        {/* --- Hero Card --- */}
+
+        <button
+              className="pf-btn pf-btn-ghost"
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  const el2 = document.getElementById('projects');
+                  if (!el2) return;
+                  const y = el2.getBoundingClientRect().top + window.scrollY - 78;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 50);
+              }}
+            >
+              BACK TO PROJECTS
+            </button>
+
+
         <Reveal className="pf-about-card">
           <div style={{ fontSize: "0.875rem", color: "var(--muted)", marginBottom: 8 }}>{project.role || "Project"}</div>
           <h3 className="pf-about-title">{project.title}</h3>
@@ -94,7 +114,7 @@ export default function ProjectPage() {
           <ForegroundCube parentSelector={"pf-about-card"} position="top-right" size={110} offset={{ x: -5, y: -10 }} />
         </Reveal>
 
-        {/* --- Overview / Description --- */}
+    
         <Reveal className="pf-about-card">
           <div style={{ fontSize: "0.875rem", color: "var(--muted)", marginBottom: 8 }}>Overview</div>
           <h3 className="pf-about-title" style={{ fontSize: "1.25rem" }}>
@@ -105,7 +125,6 @@ export default function ProjectPage() {
           <ForegroundCube parentSelector={"pf-row"} position="top-left" size={60} offset={{ x: -20, y: 10 }} />
         </Reveal>
 
-        {/* --- Design Notes / Philosophy --- */}
         <Reveal className="pf-about-card">
           <div style={{ fontSize: "0.875rem", color: "var(--muted)", marginBottom: 8 }}>Design Notes</div>
           <h3 className="pf-about-title" style={{ fontSize: "1.25rem" }}>Philosophy & Challenges</h3>
@@ -114,8 +133,10 @@ export default function ProjectPage() {
           <ForegroundCube parentSelector={"pf-row"} position="bottom-right" size={60} offset={{ x: -20, y: 10 }} />
         </Reveal>
 
-
-        {/* --- Extra Sections --- */}
+      </div>
+    </section>
+    <section className="pf-section">
+      <div className="pf-container">
         {project.extraSections?.map((sec, i) => (
           <Reveal className="pf-about-card" key={i}>
             <div style={{ fontSize: "0.875rem", color: "var(--muted)", marginBottom: 8 }}>{sec.subtitle || "Section"}</div>
@@ -125,7 +146,10 @@ export default function ProjectPage() {
           </Reveal>
         ))}
 
-        {/* --- Image Gallery --- */}
+      </div>
+    </section>
+    <section className="pf-section">
+      <div className="pf-container">
         {project.gallery?.length > 0 && (
           <Reveal className="pf-about-card">
             <div style={{ fontSize: "0.875rem", color: "var(--muted)", marginBottom: 8 }}>Gallery</div>
@@ -138,8 +162,24 @@ export default function ProjectPage() {
             <ForegroundCube parentSelector={"pf-row"} position="top-right" size={60} offset={{ x: 8, y: -8 }} />
           </Reveal>
         )}
+
+         <button
+              className="pf-btn pf-btn-ghost"
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  const el2 = document.getElementById('projects');
+                  if (!el2) return;
+                  const y = el2.getBoundingClientRect().top + window.scrollY - 78;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }, 50);
+              }}
+            >
+              BACK TO PROJECTS
+            </button>
         
       </div>
     </section>
+    </div>
   );
 }
