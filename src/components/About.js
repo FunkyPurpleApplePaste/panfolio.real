@@ -34,7 +34,7 @@ export default function About() {
               }}>
                 <img
                   src="/assets/css.png"
-                  alt="Certificate 1"
+                  alt="CSS"
                   style={{
                     width: '320px',
                     height: 'auto',
@@ -45,7 +45,18 @@ export default function About() {
                 />
                 <img
                   src="/assets/react.png"
-                  alt="Certificate 2"
+                  alt="React"
+                  style={{
+                    width: '320px',
+                    height: 'auto',
+                    borderRadius: 8,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                    objectFit: 'cover'
+                  }}
+                />
+                <img
+                  src="/assets/js.png"
+                  alt="JavaScript"
                   style={{
                     width: '320px',
                     height: 'auto',
