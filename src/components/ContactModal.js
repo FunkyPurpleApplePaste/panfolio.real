@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useLayoutEffect, useState } from "react";
 import ForegroundCube from "./ForegroundCubes";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function ContactModal({ onClose }) {
   const modalRef = useRef(null);
@@ -165,8 +166,18 @@ export default function ContactModal({ onClose }) {
               <div style={{ marginTop: 18, color: "var(--muted)", fontSize: 13 }}>
                 <div style={{ marginBottom: 8 }}>Prefer direct links?</div>
                 <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-                  <a style={{ color: "var(--pf-purple)"}} href="mailto:cosapatarapimpannawit@gmail.com">cosapatarapimpannawit@gmail.com</a>
-                  <span style={{ opacity: 0.5 }}>·</span>
+                  <a style={{
+                    color: "var(--pf-purple)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6
+                  }}
+                  href="mailto:cosapatarapimpannawit@gmail.com"
+                  aria-label="Email">
+                <FaEnvelope size={18} />
+                cosapatarapimpannawit@gmail.com
+              </a>
+              <span style={{ opacity: 0.5 }}>·</span>
                   <a style={{ color: "var(--pf-purple)", display: "inline-flex", alignItems: "center", gap: 6 }}
                     href="https://github.com/FunkyPurpleApplePaste"
                     target="_blank"

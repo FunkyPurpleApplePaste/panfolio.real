@@ -52,7 +52,19 @@ export default function Navbar({ sticky = true }) {
       <header ref={navRef} className={`pf-nav ${scrolled ? 'pf-nav--scrolled' : ''} ${sticky ? 'pf-nav--sticky' : ''}`} role="navigation" aria-label="Primary">
         <div className="pf-nav-inner">
           <div className="pf-nav-left">
-            <button className="pf-brand" onClick={() => scrollTo('home')} aria-label="Go to top" title="Go to top"><strong>PAN</strong>FOLIO</button>
+            <button className="pf-brand" onClick={() => scrollTo('home')} aria-label="Go to top" title="Go to top">
+              <img
+                src="/assets/logo.png"
+                alt="Panfolio logo"
+                style={{
+                  height: 30,
+                  width: "auto",
+                  display: "block",
+                  objectFit: "contain",
+                }}
+              />
+            </button>
+
           </div>
           <div className="pf-nav-right">
             <nav className={`pf-nav-links ${open ? 'is-open' : ''}`} aria-hidden={!open && window.innerWidth <= 880}>

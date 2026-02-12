@@ -1,16 +1,31 @@
 import React from 'react';
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function ContactFooter({ sticky = false }) {
   return (
     <footer id="contact"  className={`pf-footer ${sticky ? 'pf-footer--sticky' : ''}`} role="contentinfo">
       <div className="pf-footer-inner">
         <div className="pf-footer-left" aria-label="brand and contact">
-          <div className="pf-footer-brand"><strong>PAN</strong>FOLIO</div>
+          <img
+                src="/assets/logo.png"
+                alt="Panfolio logo"
+                style={{
+                  height: 100,
+                  width: "auto",
+                  display: "block",
+                  objectFit: "contain",
+                }}
+              />
           <p className="pf-footer-tag">Designing systems players <strong>feel</strong> — not just see.</p>
           <div className="pf-contact">
             <div className="pf-contact-name">Pan C • Game Designer</div>
-            <a className="pf-contact-mail" href="mailto:cosapatarapimpannawit@gmail.com">cosapatarapimpannawit@gmail.com</a>
+            <a className="pf-contact-mail"
+              href="mailto:cosapatarapimpannawit@gmail.com"
+              aria-label="Email">
+              <FaEnvelope size={18} style={{ marginRight: 6, verticalAlign: "middle" }} />
+              cosapatarapimpannawit@gmail.com
+            </a>
+
           </div>
         </div>
         <div className="pf-footer-center" aria-hidden><div className="pf-divider" aria-hidden /></div>
