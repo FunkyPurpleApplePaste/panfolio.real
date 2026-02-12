@@ -1,10 +1,10 @@
-// src/pages/ProjectPage.js
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import ForegroundCube from "../components/ForegroundCubes";
 import { projectsData } from "../data";
 import { useTilt } from "../hooks/useTilt";
+import React, { useState, useEffect } from "react";
 
 
 export default function ProjectPage() {
@@ -12,14 +12,19 @@ export default function ProjectPage() {
   const navigate = useNavigate();
   const project = projectsData.find((p) => p.id === id);
 
+const [zoomed, setZoomed] = useState(null);
 
-  
-  // Hero image tilt
+  useEffect(() => {
+    if (!zoomed) return;
+    const handleEsc = (e) => e.key === "Escape" && setZoomed(null);
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [zoomed]);
+
   const heroTiltHook = useTilt(10, 1.03);
   const { ref: heroRef, tilt: heroTilt, handleMouseMove: heroMove, handleMouseLeave: heroLeave } = heroTiltHook;
   const heroHovered = heroTilt.scale > 1;
 
-  // Gallery images tilt will be handled in a small component below
   const GalleryImage = ({ src, alt }) => {
     const { ref, tilt, handleMouseMove, handleMouseLeave } = useTilt(10, 1.05);
     const hovered = tilt.scale > 1;
@@ -180,6 +185,43 @@ export default function ProjectPage() {
         
       </div>
     </section>
+
+{zoomed && (
+  <div
+    className="pf-overlay-backdrop"
+    onClick={() => setZoomed(null)}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.8)",
+      backdropFilter: "blur(6px)",
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "zoom-out",
+      animation: "fadeIn 0.2s ease",
+    }}
+  >
+    <img
+      src={zoomed}
+      alt="Zoomed"
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        maxWidth: "90vw",
+        maxHeight: "90vh",
+        borderRadius: 16,
+        boxShadow:
+          "0 0 32px rgba(0,0,0,0.6), 0 0 16px rgba(232,102,255,0.3)",
+        cursor: "default",
+        transition: "transform 0.25s ease",
+        transform: "scale(1)",
+      }}
+    />
+  </div>
+)}
+
+
     </div>
   );
 }
