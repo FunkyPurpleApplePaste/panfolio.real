@@ -6,65 +6,7 @@ export const skills = [
 
 export const projectsData = [
 
-{
-  id: 'portfolio-website',
-  title: 'PORTFOLIO WEBSITE',
-  period: '2025',
-  category: 'Apps & Design',
-  tag: 'React • Web Design • Front-End Architecture',
-  image: '/assets/portfolio/Picture1.png',
-  shortDesc:
-    'A responsive, animated portfolio showcasing interactive design and modular React components — built to grow alongside my work.',
-  desc:
-    'A full redesign of my personal portfolio focused on motion, clarity, and modularity. The site blends playful glassmorphism with clean typography, responsive layouts, and lightweight reveal animations. Built entirely in React with reusable components, a custom UI system, and CSS variables for maintainability. Each interaction — from the navbar blur to cube animations — reinforces a unified design language that feels alive and personal.',
-  role: 'Designer & Developer',
-  highlight:
-    'Fully custom React architecture, soft animated backgrounds, floating cube system, and dynamic modal project pages with tilt and motion interactivity.',
-  notes:
-    'Every part of the site — from motion timing to cube layering — was handcrafted. Built with Tailwind and custom CSS for total control over style, performance, and polish. The site is continuously iterated as both a design canvas and technical experiment.',
-  quote:
-    '“A portfolio isn’t just a showcase — it’s the interface to who you are.”',
-  subtitleOverview: 'Design, architecture, and motion',
-  gallery: [
-    '/assets/portfolio/Picture1.png',
-    '/assets/portfolio/Picture2.png',
-    '/assets/portfolio/Picture3.png',
-    '/assets/portfolio/Picture4.png'
-  ],
-  extraSections: [
-    {
-      title: 'Tools & Technologies',
-      subtitle: 'Software & frameworks',
-      content:
-        'Developed in React, versioned with Git, hosted on Vercel.'
-    },
-    {
-      title: 'Visual Identity',
-      subtitle: 'Tone, motion & atmosphere',
-      content:
-        'Designed around a dark glass aesthetic accented by neon magenta gradients and floating geometry. The visual tone blends calm focus with creative energy, echoing my design ethos — minimal structure, expressive motion.'
-    },
-    {
-      title: 'Technical Core',
-      subtitle: 'React system & UI design',
-      content:
-        'Built from scratch using React with a modular component architecture. Includes a responsive Navbar with mobile menu, Masonry layout for projects, animated modals with tilt-based depth, and smooth scroll reveal hooks — all optimized for clarity and fluid motion.'
-    },
-    {
-      title: 'Interactive Layer',
-      subtitle: 'Backgrounds & ambience',
-      content:
-        'Introduces dynamic ambient layers: a soft light background, floating cubes, and subtle parallax hero cards — each element responding to user motion for a sense of space and continuity.'
-    },
-    {
-      title: 'Iterative Growth',
-      subtitle: 'Living documentation',
-      content:
-        'The portfolio serves as a living record of my evolving visual language and technical approach. Each revision refines usability, motion, and storytelling — ensuring the site always reflects my current design mindset.'
-    }
-  ]
-}
-,
+
 
   {
     id: 'fight-on-hight',
@@ -159,7 +101,65 @@ export const projectsData = [
       }
     ]
 },
-
+{
+  id: 'portfolio-website',
+  title: 'PORTFOLIO WEBSITE',
+  period: '2025',
+  category: 'Apps & Design',
+  tag: 'React • Web Design • Front-End Architecture',
+  image: '/assets/portfolio/Picture1.png',
+  shortDesc:
+    'A responsive, animated portfolio showcasing interactive design and modular React components — built to grow alongside my work.',
+  desc:
+    'A full redesign of my personal portfolio focused on motion, clarity, and modularity. The site blends playful glassmorphism with clean typography, responsive layouts, and lightweight reveal animations. Built entirely in React with reusable components, a custom UI system, and CSS variables for maintainability. Each interaction — from the navbar blur to cube animations — reinforces a unified design language that feels alive and personal.',
+  role: 'Designer & Developer',
+  highlight:
+    'Fully custom React architecture, soft animated backgrounds, floating cube system, and dynamic modal project pages with tilt and motion interactivity.',
+  notes:
+    'Every part of the site — from motion timing to cube layering — was handcrafted. Built with Tailwind and custom CSS for total control over style, performance, and polish. The site is continuously iterated as both a design canvas and technical experiment.',
+  quote:
+    '“A portfolio isn’t just a showcase — it’s the interface to who you are.”',
+  subtitleOverview: 'Design, architecture, and motion',
+  gallery: [
+    '/assets/portfolio/Picture1.png',
+    '/assets/portfolio/Picture2.png',
+    '/assets/portfolio/Picture3.png',
+    '/assets/portfolio/Picture4.png'
+  ],
+  extraSections: [
+    {
+      title: 'Tools & Technologies',
+      subtitle: 'Software & frameworks',
+      content:
+        'Developed in React, versioned with Git, hosted on Vercel.'
+    },
+    {
+      title: 'Visual Identity',
+      subtitle: 'Tone, motion & atmosphere',
+      content:
+        'Designed around a dark glass aesthetic accented by neon magenta gradients and floating geometry. The visual tone blends calm focus with creative energy, echoing my design ethos — minimal structure, expressive motion.'
+    },
+    {
+      title: 'Technical Core',
+      subtitle: 'React system & UI design',
+      content:
+        'Built from scratch using React with a modular component architecture. Includes a responsive Navbar with mobile menu, Masonry layout for projects, animated modals with tilt-based depth, and smooth scroll reveal hooks — all optimized for clarity and fluid motion.'
+    },
+    {
+      title: 'Interactive Layer',
+      subtitle: 'Backgrounds & ambience',
+      content:
+        'Introduces dynamic ambient layers: a soft light background, floating cubes, and subtle parallax hero cards — each element responding to user motion for a sense of space and continuity.'
+    },
+    {
+      title: 'Iterative Growth',
+      subtitle: 'Living documentation',
+      content:
+        'The portfolio serves as a living record of my evolving visual language and technical approach. Each revision refines usability, motion, and storytelling — ensuring the site always reflects my current design mindset.'
+    }
+  ]
+}
+,
   {
     id: 'ark-corporation',
     title: 'ARK CORPORATION',

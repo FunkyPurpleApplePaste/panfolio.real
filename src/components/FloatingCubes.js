@@ -4,8 +4,8 @@ import React, { useEffect, useMemo, useRef } from "react";
 export default function FloatingCubes() {
   // --- SETTINGS ---
   const NUM = window.innerWidth > 1000 ? 24 : 14; // fewer on mobile for performance
-  const RANGE_X = 100; // vw range
-  const RANGE_Y = 100; // vh range
+  const RANGE_X = 120; // vw range
+  const RANGE_Y = 120; // vh range
 
   // --- GENERATE STATIC CUBE DATA ---
   const cubes = useMemo(() => {
