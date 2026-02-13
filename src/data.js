@@ -1,6 +1,6 @@
 export const skills = [
   'Rapid Prototyping', 'Luau / Roblox',
-  'JavaScript / TS', 'Python', 'C# / C++ Game Logic',
+  'JavaScript', 'Python', 'C# / C++ Game Logic',
   'UI/UX Design', 'REACT / JSX', 'CSS', 'App Development', 'Web Design'
 ];
 
