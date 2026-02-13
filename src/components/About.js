@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Reveal from './Reveal';
 import ForegroundCube from './ForegroundCubes';
 import { skills } from '../data';
@@ -14,6 +14,11 @@ const certs = importAll(require.context('../assets/certs', false, /\.(png|jpe?g|
 
 
 export default function About() {
+
+  const [showAll, setShowAll] = useState(false);
+  const VISIBLE_COUNT = 4;
+  const displayedCerts = showAll ? certs : certs.slice(0, VISIBLE_COUNT);
+
   return (
     <section id="about" className="pf-section">
       <div className="pf-container">
@@ -44,33 +49,69 @@ export default function About() {
             <ForegroundCube parentSelector={"pf-row"} position='bottom-left' size={80} offset={{x : -50, y : 20 }}/>
 
             <div style={{ marginTop: 24 }}>
-              <h4 style={{ margin: '0 0 12px', fontWeight: 700}}>Certificates</h4>
-              <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 16,
-                justifyContent: 'flex-start',
-                alignItems: 'center'
-              }}>
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                {certs.map((cert, index) => (
+              <h4 style={{ margin: "0 0 12px", fontWeight: 700 }}>
+                Certificates
+              </h4>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 16,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  marginBottom: 16,
+                }}
+              >
+                {displayedCerts.map((cert, index) => (
                   <img
                     key={index}
                     src={cert.src}
                     alt={cert.alt}
                     style={{
-                      width: '23.7%',
+                      width: "23.7%",
                       borderRadius: 8,
-                      boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                      objectFit: 'cover',
-                      transition: 'transform 0.3s ease',
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+                      objectFit: "cover",
+                      transition: "transform 0.3s ease, opacity 0.4s ease",
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.03)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.0)")
+                    }
                   />
                 ))}
               </div>
-              </div>
+
+              {certs.length > VISIBLE_COUNT && (
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="pf-btn pf-btn-primary"
+                  style={{
+                    padding: "0.65rem 1.3rem",
+                    fontSize: "0.9rem",
+                    borderRadius: 10,
+                    fontWeight: 700,
+                    marginTop: 8,
+                    boxShadow: "0 8px 20px rgba(232,102,255,0.18)",
+                    transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 14px 32px rgba(232,102,255,0.25)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 20px rgba(232,102,255,0.18)";
+                  }}
+                >
+                  {showAll ? "View Less" : "View More"}
+                </button>
+              )}
             </div>
 
           </Reveal>
