@@ -8,7 +8,10 @@ import HeroCarousel from "./components/HeroCarousel";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import ContactFooter from "./components/ContactFooter";
-import ProjectPage from "./pages/ProjectPage"; // the new template page
+import ProjectPage from "./pages/ProjectPage"; 
+
+import TestimonialsBanner from "./components/TestimonialsBanner";
+import { testimonialsData } from "./testimonials";
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -43,6 +46,7 @@ export default function App() {
             element={
               <>
                 <HeroCarousel featuredIds={['fight-on-hight','hight-praeteritum','portfolio-website']} />
+                <TestimonialsBanner testimonials={testimonialsData} />
                 <About />
                 <Projects />
               </>

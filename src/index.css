@@ -926,4 +926,70 @@ a:focus:not(:focus-visible) {
 }
 
 
+/* ---------------- Testimonials Banner ---------------- */
+
+.pf-testimonials {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 30;
+  padding: 0.75rem 0;
+}
+
+.pf-testimonials::before,
+.pf-testimonials::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 10%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
+}
+
+.pf-testimonials::after {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.pf-testimonials-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: pf-scroll 55s linear infinite;
+}
+
+@keyframes pf-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.pf-testimonial {
+  display: inline-block;
+  margin: 0 3rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  opacity: 0.9;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.pf-testimonial::before {
+  content: "";
+  margin-right: 0.6rem;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+.pf-testimonial:hover {
+  color: #fff;
+  opacity: 1;
+  cursor: default;
+}
 
