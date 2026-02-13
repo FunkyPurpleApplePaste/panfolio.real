@@ -33,6 +33,12 @@ export const projectsData = [
   ],
   extraSections: [
     {
+      title: 'Tools & Technologies',
+      subtitle: 'Software & frameworks',
+      content:
+        'Developed in React, versioned with Git, hosted on Vercel.'
+    },
+    {
       title: 'Visual Identity',
       subtitle: 'Tone, motion & atmosphere',
       content:
@@ -84,6 +90,12 @@ export const projectsData = [
       '/assets/fohgallery/Picture7.png',
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Build in Roblox Studios using Luau. UI designed in IbisPaint, constructed in Roblox Studios'
+      },
       { 
         title: 'Gameplay Systems', 
         subtitle: 'Core systems & rules', 
@@ -124,6 +136,12 @@ export const projectsData = [
       '/assets/praegallery/Picture5.png'
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Written in Google Docs'
+      },
       { 
         title: 'Chronology', 
         subtitle: 'Timeline notes', 
@@ -164,6 +182,12 @@ export const projectsData = [
       '/assets/arkgallery/Picture5.png'
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Build in Roblox Studios using Luau.'
+      },
       { 
         title: 'Combat Loop', 
         subtitle: 'Round structure', 
@@ -208,6 +232,12 @@ export const projectsData = [
       '/assets/oceangallery/Picture4.png'
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Build in Roblox Studios using Luau.'
+      },
       { 
         title: 'Gameplay Loop', 
         subtitle: 'Exploration & progression', 
@@ -252,6 +282,12 @@ export const projectsData = [
       '/assets/dustgallery/Picture4.png'
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Build in Roblox Studios using Luau.'
+      },
       { 
         title: 'Gameplay Loop', 
         subtitle: 'Exploration & progression', 
@@ -292,6 +328,12 @@ export const projectsData = [
       '/assets/lifeweaver/Picture5.png'
     ],
     extraSections: [
+      {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'High-Fidelity design created in Figma.'
+      },
       { 
         title: 'Objective', 
         subtitle: 'Project brief', 
@@ -336,6 +378,12 @@ export const projectsData = [
     '/assets/ccgallery/Picture4.png'
   ],
   extraSections: [
+    {
+        title: 'Tools & Technologies',
+        subtitle: 'Software & frameworks',
+        content:
+          'Front-end built in React, Back-end scripted in JavaScript and deployed on Render.'
+    },
     {
       title: 'Problem & Purpose',
       subtitle: 'Why this app exists',
